@@ -1,38 +1,40 @@
 import java.util.HashMap;
 
 import Enum.*;
-import java.util.Random.*;
 
-public class AgentAcheteur {
+public class AgentAcheteur implements Agent {
 
-    private String nom;
+    private Integer id;
 
     private HashMap<Preference, Object> preferences;
 
-    private HashMap orientationsNegotiations;
 
-    public AgentAcheteur(){
-        this.nom = "";
-        this.preferences = new HashMap<Preference, Object>();
-        this.orientationsNegotiations = new HashMap<OrientationNegociation, Object>();
-    }
+    private Strategie strategie;
 
-    public AgentAcheteur(String nom, HashMap<Preference, Object> preferences, HashMap<OrientationNegociation, Object> orientationsNegotiations){
-        this.nom = nom;
+    public AgentAcheteur(Integer id, HashMap<Preference, Object> preferences, Strategie strategie){
+        this.id = id;
         this.preferences = preferences;
-        this.orientationsNegotiations = orientationsNegotiations;
+        this.strategie = strategie;
     }
 
-    public Offre  makeOffer(Float contreProposition){
-        Offre offre = new Offre(this, (float) Math.min((Float) preferences.get(OrientationNegociation.PRIX_DEPART), contreProposition * (0.9 + Math.random() * 0.1)));
+    public Offre makeOffer(Float prix){
+        Offre offre = new Offre(this, prix);
+        System.out.println("L'agent acheteur fait une offre de : " + prix);
+//      (float) Math.min((Float) preferences.get(OrientationNegociation.PRIX_DEPART), contreProposition * (0.9 + Math.random() * 0.1))
         return offre;
     }
-    public String getNom() {
-        return this.nom;
+
+    public Boolean evaluateOffer(Offre offre){
+        if(offre.getPrix() > (float) preferences.get(Preference.PRIX_MAX)) {
+            System.out.println("L'agent acheteur rejette l'offre");
+            return false;
+        }
+        System.out.println("L'agent acheteur accepte l'offre");
+        return true;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public Integer getId() {
+        return this.id;
     }
 
     public HashMap getPreferences() {
@@ -51,6 +53,9 @@ public class AgentAcheteur {
         this.preferences.remove(preference);
     }
 
+    public Strategie getStrategie(){
+        return strategie;
+    }
 
 
 }

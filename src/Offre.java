@@ -1,17 +1,21 @@
 public class Offre {
 
-    private AgentAcheteur agentAcheteur;
+    private Agent agent;
+
     private Float prix;
+    private Boolean isValide;
 
-    private Boolean accepted;
-
-    public Offre(AgentAcheteur agent, Float prix){
-        this.agentAcheteur = agent;
+    public Offre(Float prix) {
+        this.agent = null;
         this.prix = prix;
-        this.accepted = false;
     }
 
+    public Offre(Agent agent, Float prix) {
+        this.agent = agent;
+        this.prix = prix;
+    }
 
-
-
+    public Float getPrix() {
+        return prix;
+    }
 }
