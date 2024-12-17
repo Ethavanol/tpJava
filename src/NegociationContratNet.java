@@ -8,30 +8,36 @@ public class NegociationContratNet {
         this.acheteur = acheteur;
     }
     public Offre negociate(){
-        boolean tourAcheteur = true;
+        boolean tourAcheteur = false;
 
         int tick = 0;
         float prixInitial = fournisseur.getServices()[0].getPrix();
 
-        Offre offre = acheteur.getStrategie().makeOffer(acheteur.getStrategie().getPrixAccept());
-        System.out.println("L'acheteur fait une offre de " + offre.getPrix());
-        boolean isAccepted = fournisseur.getStrategie().evaluateOfferFournisseur(offre);
+        Offre offreAcheteur = new Offre(acheteur.getStrategie().getPrixAccept());
+        Offre offreFournisseur = new Offre(fournisseur.getStrategie().getPrixMax());
+        System.out.println("L'acheteur fait une offre de " + offreAcheteur.getPrix());
+        boolean isAccepted = fournisseur.getStrategie().evaluateOffer(offreAcheteur);
         while(!isAccepted && tick < 6){
             System.out.println("L'offre a été refusée");
-            if(tourAcheteur){
-                offre = fournisseur.getStrategie().makeOffer(offre.getPrix());
-                System.out.println("Le fournisseur fait une offre de " + offre.getPrix());
-                isAccepted = acheteur.getStrategie().evaluateOfferAcheteur(offre);
+            if(!tourAcheteur){
+                offreFournisseur = fournisseur.getStrategie().makeOffer(offreFournisseur.getPrix());
+                System.out.println("Le fournisseur fait une offre de " + offreFournisseur.getPrix());
+                isAccepted = acheteur.getStrategie().evaluateOffer(offreFournisseur);
             } else {
-                offre = acheteur.getStrategie().makeOffer(offre.getPrix());
-                System.out.println("L'acheteur fait une offre de " + offre.getPrix());
-                isAccepted = fournisseur.getStrategie().evaluateOfferFournisseur(offre);
+                offreAcheteur = acheteur.getStrategie().makeOffer(offreAcheteur.getPrix());
+                System.out.println("L'acheteur fait une offre de " + offreAcheteur.getPrix());
+                isAccepted = fournisseur.getStrategie().evaluateOffer(offreAcheteur);
             }
             tourAcheteur = !tourAcheteur;
             tick++;
         }
 
-        System.out.println("La négociation est terminée, le prix final est: " + offre.getPrix());
+        Offre offre = isAccepted? (tourAcheteur ? offreFournisseur : offreAcheteur):null;
+        if (offre != null) {
+            System.out.println("L'offre a été acceptée. La négociation est terminée, le prix final est: " + offre.getPrix());
+        } else {
+            System.out.println("La négociation est terminée, aucun achat n'a été effectué");
+        }
         return isAccepted? offre:null;
     }
 

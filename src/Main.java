@@ -4,8 +4,8 @@ public class Main {
         // Initialisation du service
         Service ticket = new Service(0, 100);
 
-        StrategieFluctuationDiminue strategieFournisseur = new StrategieFluctuationDiminue(570f, 630f);
-        StrategieFluctuationDiminue strategieAcheteur = new StrategieFluctuationDiminue(540f, 580f);
+        StrategieFluctuationDiminue strategieFournisseur = new StrategieFluctuationDiminue(570f, 630f, false);
+        StrategieFluctuationDiminue strategieAcheteur = new StrategieFluctuationDiminue(540f, 580f, true);
 
         // Initialisation des agents
         AgentFournisseur fournisseur = new AgentFournisseur(0, new Service[]{ticket}, strategieFournisseur);

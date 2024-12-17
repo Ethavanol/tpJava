@@ -1,4 +1,3 @@
-import java.util.concurrent.ThreadLocalRandom;
 
 public class StrategieFluctuationDiminue implements Strategie{
 
@@ -11,8 +10,10 @@ public class StrategieFluctuationDiminue implements Strategie{
     private Float margeAcceptation;
     private int nbTicks;
 
+    private Boolean isAcheteur;
 
-    public StrategieFluctuationDiminue(Float prixAccept, Float prixMax){
+
+    public StrategieFluctuationDiminue(Float prixAccept, Float prixMax, Boolean isAcheteur){
         this.tauxFluctuation = 1f;
         this.prixAccept = prixAccept;
         this.prixMax = prixMax;
@@ -20,24 +21,22 @@ public class StrategieFluctuationDiminue implements Strategie{
         this.margeAcceptation = prixMax - prixAccept;
         this.tauxMin = 0f;
         this.tauxSmoothness = 0.05f;
-    }
-
-    public Float getTaux_fluctuation() {
-        return tauxFluctuation;
-    }
-
-    public void setTaux_fluctuation(Float tauxFluctuation) {
-        this.tauxFluctuation = tauxFluctuation;
+        this.isAcheteur = isAcheteur;
     }
 
     public Offre makeOffer(Float prix){
-        int signe = Util.getRandomNegativeOrPositiveSigne();
-        Offre offre = new Offre((float) (prix + signe * this.tauxFluctuation * 0.1 * prix));
+        // l'acheteur propose un prix plus haut à supposer quel'offre précédente a été refusée
+        // le fournisseur lui propose un prix plus bas en supposant que l'offre précédente a été refusée
+        int signe = this.isAcheteur ? 1 : -1;
+        Offre offre = new Offre((float) (prix + signe * this.tauxFluctuation * 0.02 * prix));
 
         updateStrategie();
         return offre;
     }
 
+    public Boolean evaluateOffer(Offre offre){
+        return this.isAcheteur ? evaluateOfferAcheteur(offre) : evaluateOfferFournisseur(offre);
+    }
 
     public Boolean evaluateOfferAcheteur(Offre offre){
         return offre.getPrix() < this.prixAccept;
@@ -53,7 +52,11 @@ public class StrategieFluctuationDiminue implements Strategie{
     }
 
     public Float getPrixAccept(){
-        return prixAccept;
+        return this.prixAccept;
+    }
+
+    public Float getPrixMax(){
+        return this.prixMax;
     }
 
 }
