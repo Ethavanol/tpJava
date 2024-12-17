@@ -34,15 +34,6 @@ public class AgentFournisseur implements Agent {
         return services;
     }
 
-
-
-
-
-
-
-
-
-
     public Offre makeOffer(Float prix) {
         Offre offre = new Offre(this, prix);
         System.out.println("L'agent fournisseur fait une offre de : " + prix);

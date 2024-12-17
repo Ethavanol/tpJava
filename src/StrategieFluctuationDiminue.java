@@ -18,6 +18,8 @@ public class StrategieFluctuationDiminue implements Strategie{
         this.prixMax = prixMax;
         this.nbTicks = 0;
         this.margeAcceptation = prixMax - prixAccept;
+        this.tauxMin = 0f;
+        this.tauxSmoothness = 0.05f;
     }
 
     public Float getTaux_fluctuation() {
@@ -31,17 +33,15 @@ public class StrategieFluctuationDiminue implements Strategie{
     public Offre makeOffer(Float prix){
         int signe = Util.getRandomNegativeOrPositiveSigne();
         Offre offre = new Offre((float) (prix + signe * this.tauxFluctuation * 0.1));
+        System.out.println("L'agent fournisseur fait une offre de : " + prix);
 
-        System.out.println("L'agent fournisseur fait une offre de : ");
+        updateStrategie();
         return offre;
     }
 
 
     public Boolean evaluateOffer(Offre offre){
-        if(offre.getPrix() < prixAccept){
-            return true;
-        }
-        return false;
+        return offre.getPrix() < prixAccept;
     }
 
     public void updateStrategie(){
