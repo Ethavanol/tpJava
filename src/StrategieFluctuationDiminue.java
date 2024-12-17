@@ -32,16 +32,19 @@ public class StrategieFluctuationDiminue implements Strategie{
 
     public Offre makeOffer(Float prix){
         int signe = Util.getRandomNegativeOrPositiveSigne();
-        Offre offre = new Offre((float) (prix + signe * this.tauxFluctuation * 0.1));
-        System.out.println("L'agent fournisseur fait une offre de : " + prix);
+        Offre offre = new Offre((float) (prix + signe * this.tauxFluctuation * 0.1 * prix));
 
         updateStrategie();
         return offre;
     }
 
 
-    public Boolean evaluateOffer(Offre offre){
-        return offre.getPrix() < prixAccept;
+    public Boolean evaluateOfferAcheteur(Offre offre){
+        return offre.getPrix() < this.prixAccept;
+    }
+
+    public Boolean evaluateOfferFournisseur(Offre offre){
+        return offre.getPrix() > this.prixAccept;
     }
 
     public void updateStrategie(){

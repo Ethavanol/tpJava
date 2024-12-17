@@ -2,7 +2,9 @@ public interface Strategie {
 
     public Offre makeOffer(Float prix);
 
-    public Boolean evaluateOffer(Offre offre);
+    public Boolean evaluateOfferAcheteur(Offre offre);
+
+    public Boolean evaluateOfferFournisseur(Offre offre);
 
     public Float getPrixAccept();
 }
