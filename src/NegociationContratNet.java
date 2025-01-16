@@ -7,6 +7,7 @@ public class NegociationContratNet {
         this.fournisseur = fournisseur;
         this.acheteur = acheteur;
     }
+
     public Offre negociate(){
         boolean tourAcheteur = false;
 

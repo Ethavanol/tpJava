@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,10 +12,34 @@ public class Main {
 
         // Initialisation des agents
         AgentFournisseur fournisseur = new AgentFournisseur(0, new Service[]{ticket}, strategieFournisseur);
-        AgentAcheteur acheteur = new AgentAcheteur(0, strategieAcheteur);
+        AgentAcheteur acheteur1 = new AgentAcheteur(0, strategieAcheteur);
+        AgentAcheteur acheteur2 = new AgentAcheteur(0, strategieAcheteur);
+        AgentAcheteur acheteur3 = new AgentAcheteur(0, strategieAcheteur);
+
+        HashMap<List<Agent>, Integer> listAgents = new HashMap<List<Agent>, Integer>(){{
+            put(Arrays.asList(acheteur1), 10);
+            put(Arrays.asList(acheteur2), 15);
+            put(Arrays.asList(acheteur3), 20);
+            put(Arrays.asList(fournisseur), 10);
+            put(Arrays.asList(acheteur1, acheteur2), 30);
+            put(Arrays.asList(acheteur1, acheteur3), 40);
+            put(Arrays.asList(acheteur2, acheteur3), 20);
+            put(Arrays.asList(fournisseur, acheteur1), 25);
+            put(Arrays.asList(fournisseur, acheteur2), 40);
+            put(Arrays.asList(fournisseur, acheteur3), 30);
+            put(Arrays.asList(acheteur1, acheteur2, acheteur3), 50);
+            put(Arrays.asList(fournisseur, acheteur1, acheteur2), 80);
+            put(Arrays.asList(fournisseur, acheteur1, acheteur3), 85);
+            put(Arrays.asList(fournisseur, acheteur2, acheteur3), 65);
+            put(Arrays.asList(fournisseur, acheteur1, acheteur2, acheteur3), 100);
+        }};
+
+        AlgorithmeIP algorithmeIP = new AlgorithmeIP(listAgents);
+        algorithmeIP.findCoalition();
+
 
         // Mise en négociation
-        NegociationContratNet negociation = new NegociationContratNet(fournisseur, acheteur);
-        negociation.negociate();
+        NegociationContratNet negociation = new NegociationContratNet(fournisseur, acheteur1);
+        //negociation.negociate();
     }
 }
