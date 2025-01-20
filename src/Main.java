@@ -22,7 +22,7 @@ public class Main {
             put(Arrays.asList(acheteur3), 20);
             put(Arrays.asList(fournisseur), 10);
             put(Arrays.asList(acheteur1, acheteur2), 30);
-            put(Arrays.asList(acheteur1, acheteur3), 40);
+            put(Arrays.asList(acheteur1, acheteur3), 45);
             put(Arrays.asList(acheteur2, acheteur3), 20);
             put(Arrays.asList(fournisseur, acheteur1), 25);
             put(Arrays.asList(fournisseur, acheteur2), 40);
