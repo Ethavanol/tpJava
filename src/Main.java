@@ -39,7 +39,18 @@ public class Main {
 
 
         // Mise en négociation
-        NegociationContratNet negociation = new NegociationContratNet(fournisseur, acheteur1);
-        //negociation.negociate();
+        // NegociationContratNet negociation = new NegociationContratNet(fournisseur, acheteur1);
+        // negociation.negociate();
+
+        List<AgentAcheteur> acheteurs = Arrays.asList(acheteur1, acheteur2, acheteur3);
+        
+        // Négociation multi-acheteurs (Offres non connues)
+        //NegotiationContratNetMulti negociationMulti = new NegotiationContratNetMulti(fournisseur, acheteurs);
+        //negociationMulti.negociate();
+
+        // Négociation multi-acheteurs (Offres connues)
+        NegotiationContratNetMultiKnown negociationMultiKnown = new NegotiationContratNetMultiKnown(fournisseur, acheteurs);
+        negociationMultiKnown.negociate();
+
     }
 }

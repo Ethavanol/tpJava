@@ -1,13 +1,15 @@
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class NegotiationContratNetMulti {
+public class NegotiationContratNetMultiKnown {
 
     private AgentFournisseur fournisseur;
     private List<AgentAcheteur> acheteurs;
+    private ConcurrentHashMap<Integer, Float> offresAcheteurs = new ConcurrentHashMap<>();
 
-    public NegotiationContratNetMulti(AgentFournisseur fournisseur, List<AgentAcheteur> acheteurs) {
+    public NegotiationContratNetMultiKnown(AgentFournisseur fournisseur, List<AgentAcheteur> acheteurs) {
         this.fournisseur = fournisseur;
         this.acheteurs = acheteurs;
     }
@@ -27,6 +29,8 @@ public class NegotiationContratNetMulti {
                 System.out.println("L'acheteur fait une offre de " + offreAcheteur.getPrix());
                 boolean isAccepted = fournisseur.getStrategie().evaluateOffer(offreAcheteur);
 
+                offresAcheteurs.put(acheteur.getId(), offreAcheteur.getPrix());
+
                 while (!isAccepted && tick < 6) {
                     System.out.println("L'offre a été refusée");
                     if (!tourAcheteur) {
@@ -34,9 +38,28 @@ public class NegotiationContratNetMulti {
                         System.out.println("Le fournisseur fait une offre de " + offreFournisseur.getPrix());
                         isAccepted = acheteur.getStrategie().evaluateOffer(offreFournisseur);
                     } else {
-                        offreAcheteur = acheteur.getStrategie().makeOffer(offreAcheteur.getPrix());
+                        final float currentOfferPrice = offreAcheteur.getPrix();
+                        // Get the best offer from other buyers
+                        float bestOtherOffer = offresAcheteurs.values().stream()
+                            .filter(price -> !price.equals(currentOfferPrice))
+                            .max(Float::compare)
+                            .orElse(0.0f);
+
+                        // Make sure the new offer is better (higher) than the best other offer
+                        float newOfferPrice = Math.max(offreAcheteur.getPrix(), bestOtherOffer + 1);
+                        offreAcheteur = acheteur.getStrategie().makeOffer(newOfferPrice);
                         System.out.println("L'acheteur fait une offre de " + offreAcheteur.getPrix());
+
+                        // Update the offer in the shared map
+                        offresAcheteurs.put(acheteur.getId(), offreAcheteur.getPrix());
+                        System.out.println("Offres actuelles des acheteurs: " + offresAcheteurs);
+
+                        // Evaluate the new offer
                         isAccepted = fournisseur.getStrategie().evaluateOffer(offreAcheteur);
+                    }
+                    if (tourAcheteur) {
+                        offresAcheteurs.put(acheteur.getId(), offreAcheteur.getPrix());
+                        System.out.println("Offres actuelles des acheteurs: " + offresAcheteurs);
                     }
                     tourAcheteur = !tourAcheteur;
                     tick++;
