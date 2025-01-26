@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,6 +38,21 @@ public class Main {
         AlgorithmeIP algorithmeIP = new AlgorithmeIP(listAgents);
         algorithmeIP.findCoalition();
 
+        // Initialize agents
+        List<Agent> agents = new ArrayList<>();
+        // Add agents to the list
+        agents.add(fournisseur);
+        agents.add(acheteur1);
+        agents.add(acheteur2);
+        agents.add(acheteur3);
+
+        // Initialize CooperativeCoalitionFormation
+        CooperativeCoalitionFormation coalitionFormation = new CooperativeCoalitionFormation(agents);
+
+        // Form coalitions
+        // coalitionFormation.findBestCoalition();
+
+
 
         // Mise en négociation
         // NegociationContratNet negociation = new NegociationContratNet(fournisseur, acheteur1);
@@ -50,7 +66,6 @@ public class Main {
 
         // Négociation multi-acheteurs (Offres connues)
         NegotiationContratNetMultiKnown negociationMultiKnown = new NegotiationContratNetMultiKnown(fournisseur, acheteurs);
-        negociationMultiKnown.negociate();
-
+        //negociationMultiKnown.negociate();
     }
 }

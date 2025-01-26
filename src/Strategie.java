@@ -7,4 +7,6 @@ public interface Strategie {
     public Float getPrixAccept();
 
     public Float getPrixMax();
+
+    public int getValue();
 }

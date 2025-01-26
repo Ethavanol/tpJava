@@ -1,4 +1,3 @@
-
 public class StrategieFluctuationAugmente implements Strategie{
 
     private Float tauxFluctuation;
@@ -52,6 +51,12 @@ public class StrategieFluctuationAugmente implements Strategie{
 
     public Float getPrixMax(){
         return this.prixMax;
+    }
+
+    @Override
+    public int getValue() {
+        // Example logic: Calculate value based on price acceptance and fluctuation
+        return (int) (prixAccept * (1 + tauxFluctuation));
     }
 
 }
