@@ -56,6 +56,51 @@ public abstract class Algorithme {
         }
     }
 
+    // Génères toutes les combinaison pour une liste d'agents et un partitionnement donné
+    protected void generateCombinations(List<Agent> agents, List<Integer> partitionSize, List<List<Agent>> currentPartition, List<List<List<Agent>>> allCombinations) {
+        if (partitionSize.isEmpty()) {
+            allCombinations.add(new ArrayList<>(currentPartition));
+            return;
+        }
+        int size = partitionSize.get(0);
+
+        List<List<Agent>> combinations = combinations(agents, size);
+
+        for (List<Agent> combination : combinations) {
+            // Créer une nouvelle liste d'agents sans ceux déjà choisis
+            List<Agent> remainingAgents = new ArrayList<>(agents);
+            remainingAgents.removeAll(combination);
+
+            // Ajouter la combinaison à la partition courante
+            currentPartition.add(combination);
+
+            // Appel récursif pour générer le reste des partitions
+            generateCombinations(remainingAgents, partitionSize.subList(1, partitionSize.size()), currentPartition, allCombinations);
+
+            // Retirer la combinaison de la partition courante avant de tester d'autres
+            currentPartition.remove(currentPartition.size() - 1);
+        }
+    }
+
+    protected List<List<Agent>> combinations(List<Agent> agents, int size) {
+        List<List<Agent>> result = new ArrayList<>();
+        combine(agents, size, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void combine(List<Agent> agents, int size, int start, List<Agent> current, List<List<Agent>> result) {
+        if (current.size() == size) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+
+        for (int i = start; i < agents.size(); i++) {
+            current.add(agents.get(i));
+            combine(agents, size, i + 1, current, result);
+            current.remove(current.size() - 1);
+        }
+    }
+
     public abstract void findCoalition();
 
 }
