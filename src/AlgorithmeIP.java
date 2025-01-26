@@ -120,7 +120,7 @@ public class AlgorithmeIP extends Algorithme {
         }
     }
 
-    private List<List<Agent>> combinations(List<Agent> agents, int size) {
+    protected List<List<Agent>> combinations(List<Agent> agents, int size) {
         List<List<Agent>> result = new ArrayList<>();
         combine(agents, size, 0, new ArrayList<>(), result);
         return result;
