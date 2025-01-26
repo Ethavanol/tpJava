@@ -67,5 +67,18 @@ public class Main {
         // Négociation multi-acheteurs (Offres connues)
         NegotiationContratNetMultiKnown negociationMultiKnown = new NegotiationContratNetMultiKnown(fournisseur, acheteurs);
         //negociationMultiKnown.negociate();
+
+        // Négociation multi-fournisseurs
+        AgentFournisseur fournisseur2 = new AgentFournisseur(1, new Service[]{ticket}, strategieFournisseur);
+        AgentFournisseur fournisseur3 = new AgentFournisseur(2, new Service[]{ticket}, strategieFournisseur);
+        List<AgentFournisseur> fournisseurs = Arrays.asList(fournisseur, fournisseur2, fournisseur3);
+        NegotiationContratNetMultiSupplier negociationMultiSupplier = new NegotiationContratNetMultiSupplier(acheteur1, fournisseurs);
+        negociationMultiSupplier.negociate();
+
+        // Négociation multi-fournisseurs (Offres compétitives)
+        List<AgentFournisseur> fournisseursCompetitifs = Arrays.asList(fournisseur, fournisseur2, fournisseur3);
+        NegotiationContratNetCompetitiveSuppliers negociationCompetitiveSuppliers = new NegotiationContratNetCompetitiveSuppliers(acheteur1, fournisseursCompetitifs);
+        negociationCompetitiveSuppliers.negociate();
+        
     }
 }
