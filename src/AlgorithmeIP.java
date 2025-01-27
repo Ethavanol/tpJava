@@ -11,7 +11,7 @@ public class AlgorithmeIP extends Algorithme {
     }
 
     @Override
-    public void findCoalition() {
+    public List<List<Agent>> findCoalition() {
         HashMap<List<Integer>, Integer> hashMap = getListPartitionsWithMax();
         List<HashMap.Entry<List<Integer>, Integer>> sortedEntries = new ArrayList<>(hashMap.entrySet());
         sortedEntries.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
@@ -25,7 +25,6 @@ public class AlgorithmeIP extends Algorithme {
             if(theoreticalMaxValue < maxRealValue){
                 break;
             }
-            System.out.println("Exploration de la partition avec la valeur théorique maximale : " + theoreticalMaxValue + " pour " + key);
 
             // Explorer la partition pour obtenir la valeur maximale réelle
             exploringPartition(key, combinationsWithTotalValues);
@@ -33,16 +32,13 @@ public class AlgorithmeIP extends Algorithme {
             // Trouver la valeur réelle maximale dans les combinaisons explorées
             int realMaxValue = Collections.max(combinationsWithTotalValues.values());
             List<List<Agent>> combination = Collections.max(combinationsWithTotalValues.entrySet(), HashMap.Entry.comparingByValue()).getKey();
-            System.out.println("Valeur réelle maximale actuelle : " + realMaxValue + " " + combination);
 
             // Si la valeur réelle maximale est supérieure à toutes les autres valeurs théoriques, on arrête
             if (realMaxValue > maxRealValue) {
                 maxRealValue = realMaxValue;
-                System.out.println("Nouvelle valeur maximale réelle trouvée : " + maxRealValue);
             } else {
                 // Si la valeur réelle maximale est inférieure ou égale à la valeur maximale théorique
                 // et qu'il y a d'autres partitions à explorer, on passe à la suivante
-                System.out.println("La valeur réelle maximale n'est pas meilleure.");
             }
         }
 
@@ -50,6 +46,7 @@ public class AlgorithmeIP extends Algorithme {
         System.out.println("La plus grande valeur réelle trouvée : " + maxRealValue);
         List<List<Agent>> combination = Collections.max(combinationsWithTotalValues.entrySet(), HashMap.Entry.comparingByValue()).getKey();
         System.out.println("Valeur réelle maximale actuelle : " + maxRealValue + " " + combination);
+        return combination;
     }
 
     // Retournes pour chaque taille de partitionnement (1,2,3,4), la valeur maximale associée
@@ -85,13 +82,11 @@ public class AlgorithmeIP extends Algorithme {
 
         // Afficher toutes les partitions générées
         for (List<List<Agent>> partition : partitions) {
-            System.out.println(partition);
             int totalValue = 0;
             for (List<Agent> subset : partition) {
                 totalValue += this.valuePartitions.get(subset);
             }
             combinationsWithTotalValues.put(partition, totalValue);
-            System.out.println("Valeur de la partition : " + totalValue);
         }
     }
 

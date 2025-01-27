@@ -32,11 +32,11 @@ public class Main {
             put(Arrays.asList(fournisseur, acheteur1, acheteur2), 80);
             put(Arrays.asList(fournisseur, acheteur1, acheteur3), 85);
             put(Arrays.asList(fournisseur, acheteur2, acheteur3), 65);
-            put(Arrays.asList(fournisseur, acheteur1, acheteur2, acheteur3), 100);
+            put(Arrays.asList(fournisseur, acheteur1, acheteur2, acheteur3), 95);
         }};
 
         AlgorithmeIP algorithmeIP = new AlgorithmeIP(listAgents);
-        algorithmeIP.findCoalition();
+        List<List<Agent>> coalitionAgents = algorithmeIP.findCoalition();
 
         // Initialize agents
         List<Agent> agents = new ArrayList<>();
@@ -52,8 +52,6 @@ public class Main {
         // Form coalitions
         // coalitionFormation.findBestCoalition();
 
-
-
         // Mise en négociation
         // NegociationContratNet negociation = new NegociationContratNet(fournisseur, acheteur1);
         // negociation.negociate();
@@ -63,6 +61,8 @@ public class Main {
         // Négociation multi-acheteurs (Offres non connues)
         //NegotiationContratNetMulti negociationMulti = new NegotiationContratNetMulti(fournisseur, acheteurs);
         //negociationMulti.negociate();
+        NegotiationCoalition negotiationCoalition = new NegotiationCoalition(coalitionAgents, fournisseur);
+        negotiationCoalition.negotiate();
 
         // Négociation multi-acheteurs (Offres connues)
         NegotiationContratNetMultiKnown negociationMultiKnown = new NegotiationContratNetMultiKnown(fournisseur, acheteurs);

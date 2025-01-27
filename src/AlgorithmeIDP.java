@@ -8,9 +8,12 @@ public class AlgorithmeIDP extends Algorithme {
         super(valuePartitions);
     }
 
-    public void findCoalition() {
+    @Override
+    public List<List<Agent>> findCoalition() {
         calculateAllEntries();
         //   calculateEntry();
+        List<List<Agent>> listAgents = new ArrayList<>();
+        return listAgents;
     }
 
     public void calculateAllEntries() {

@@ -10,6 +10,8 @@ public abstract class Algorithme {
         this.valuePartitions = valuePartitions;
     }
 
+    public abstract List<List<Agent>> findCoalition();
+
     public int getMaxListSize() {
         int maxSize = 0;
         for (List<Agent> agents : this.valuePartitions.keySet()) {
@@ -100,7 +102,5 @@ public abstract class Algorithme {
             current.remove(current.size() - 1);
         }
     }
-
-    public abstract void findCoalition();
 
 }

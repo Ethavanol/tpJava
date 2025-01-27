@@ -11,6 +11,7 @@ public class AgentAcheteur implements Agent {
         this.strategie = strategie;
     }
 
+    @Override
     public Integer getId() {
         return this.id;
     }

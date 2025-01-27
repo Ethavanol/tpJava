@@ -17,6 +17,11 @@ public class AgentFournisseur implements Agent {
         this.strategie = strategie;
     }
 
+    @Override
+    public Integer getId() {
+        return this.id;
+    }
+
     public Strategie getStrategie(){
         return strategie;
     }
