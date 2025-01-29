@@ -28,15 +28,16 @@ public class Main {
             put(Arrays.asList(fournisseur, acheteur1), 25);
             put(Arrays.asList(fournisseur, acheteur2), 40);
             put(Arrays.asList(fournisseur, acheteur3), 30);
-            put(Arrays.asList(acheteur1, acheteur2, acheteur3), 50);
+            put(Arrays.asList(acheteur1, acheteur2, acheteur3), 30);
             put(Arrays.asList(fournisseur, acheteur1, acheteur2), 80);
             put(Arrays.asList(fournisseur, acheteur1, acheteur3), 85);
             put(Arrays.asList(fournisseur, acheteur2, acheteur3), 65);
             put(Arrays.asList(fournisseur, acheteur1, acheteur2, acheteur3), 95);
         }};
 
-        AlgorithmeIP algorithmeIP = new AlgorithmeIP(listAgents);
+        AlgorithmeIDP algorithmeIP = new AlgorithmeIDP(listAgents);
         List<List<Agent>> coalitionAgents = algorithmeIP.findCoalition();
+        System.out.println(coalitionAgents);
 
         // Initialize agents
         List<Agent> agents = new ArrayList<>();
@@ -57,7 +58,7 @@ public class Main {
         // negociation.negociate();
 
         List<AgentAcheteur> acheteurs = Arrays.asList(acheteur1, acheteur2, acheteur3);
-        
+
         // Négociation multi-acheteurs (Offres non connues)
         //NegotiationContratNetMulti negociationMulti = new NegotiationContratNetMulti(fournisseur, acheteurs);
         //negociationMulti.negociate();
@@ -79,6 +80,6 @@ public class Main {
         List<AgentFournisseur> fournisseursCompetitifs = Arrays.asList(fournisseur, fournisseur2, fournisseur3);
         NegotiationContratNetCompetitiveSuppliers negociationCompetitiveSuppliers = new NegotiationContratNetCompetitiveSuppliers(acheteur1, fournisseursCompetitifs);
         negociationCompetitiveSuppliers.negociate();
-        
+
     }
 }
